@@ -1,35 +1,65 @@
-import {NavItem} from './types';
+import analytics from 'assets/sidebar/analytics.png'
+import base from 'assets/sidebar/base.png'
+import customers from 'assets/sidebar/city.png'
+import file from 'assets/sidebar/file.png'
+import workers from 'assets/sidebar/people.png'
+import settings from 'assets/sidebar/settings.png'
 
+import { NavItem } from './types'
 
 export const navItems: NavItem[] = [
   {
-    link: '/knowledgeBase',
+    imgOptions: {
+      height: '26px',
+      img: base,
+      width: '22px',
+    },
     title: 'База знаний',
-    imgLink: '',
+    to: '/knowledge-base',
   },
   {
-    link: '/orders',
+    imgOptions: {
+      height: '24px',
+      img: file,
+      width: '18px',
+    },
     title: 'Заявки',
-    imgLink: '',
+    to: '/orders',
   },
   {
-    link: '/workers',
+    imgOptions: {
+      height: '17px',
+      img: workers,
+      width: '25px',
+    },
     title: 'Сотрудники',
-    imgLink: '',
+    to: '/workers',
   },
   {
-    link: '/customers',
+    imgOptions: {
+      height: '26px',
+      img: customers,
+      width: '25px',
+    },
     title: 'Клиенты',
-    imgLink: '',
+    to: '/customers',
   },
   {
-    link: '/assets',
+    imgOptions: {
+      height: '24px',
+      img: analytics,
+      width: '26px',
+    },
     title: 'Активы',
-    imgLink: '',
+    to: '/assets',
   },
   {
-    link: '/settings',
+    imgOptions: {
+      height: '24px',
+      img: settings,
+      width: '25px',
+    },
     title: 'Настройки',
-    imgLink: '',
+    to: '/settings',
   },
 ]

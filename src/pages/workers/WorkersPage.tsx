@@ -15,13 +15,13 @@ const StyledImg = styled.img`
   height: 300px;
 `
 
-function SettingsPage() {
+function WorkersPage() {
   return (
     <StyledLayout>
-      <StyledTitle>Настройки</StyledTitle>
+      <StyledTitle>Сотрудники</StyledTitle>
       <StyledImg src={workInProgress} alt="" />
     </StyledLayout>
   )
 }
 
-export default SettingsPage
+export default WorkersPage

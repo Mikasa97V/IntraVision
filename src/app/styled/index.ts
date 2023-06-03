@@ -1,6 +1,6 @@
-import {createGlobalStyle} from "styled-components";
+import { createGlobalStyle } from 'styled-components'
 
-const GlobalStyles =  createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
   html, body {
     width: 100%;
     height: 100vh;
@@ -12,6 +12,12 @@ const GlobalStyles =  createGlobalStyle`
   #root {
     width: 100%;
     height: 100%;
+  }
+
+  #modal {
+    position: absolute;
+    top: 65px;
+    right: 0;
   }
 `
 
