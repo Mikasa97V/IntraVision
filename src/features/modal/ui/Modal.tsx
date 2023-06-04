@@ -8,6 +8,8 @@ import { ModalContent } from '../lib'
 interface IModalProps {
   onClose?: () => void
   children: JSX.Element
+  orderId?: number
+  orderTitle?: string
 }
 
 const StyledModalHead = styled.div`
@@ -26,9 +28,19 @@ const StyledCloseBtn = styled.div`
   cursor: pointer;
 `
 
+const StyledModalTitleWrap = styled.div`
+  display: flex;
+  column-gap: 25px;
+`
+
+const StyledOrderId = styled.span``
+
+const StyledOrderTitle = styled.span``
+
 function Modal(props: IModalProps) {
   const node = document.getElementById('modal')
   if (!node) return null
+  node.innerHTML = ''
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -48,7 +60,14 @@ function Modal(props: IModalProps) {
   return ReactDOM.createPortal(
     <>
       <StyledModalHead>
-        <div>Новая заявка</div>
+        {props.orderId ? (
+          <StyledModalTitleWrap>
+            <StyledOrderId>№ {props.orderId}</StyledOrderId>
+            <StyledOrderTitle>{props.orderTitle}</StyledOrderTitle>
+          </StyledModalTitleWrap>
+        ) : (
+          <span>Новая заявка</span>
+        )}
         <StyledCloseBtn ref={ref}>
           <img src={Close} alt="" />
         </StyledCloseBtn>

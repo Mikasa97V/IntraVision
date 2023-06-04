@@ -1,3 +1,6 @@
+import { Modal } from 'features'
+import { OrderModal } from 'features/modal/lib'
+import { useState } from 'react'
 import { TOrderData } from 'redux/orders/ordersReducer'
 import { TPriorities } from 'redux/rootReducer'
 import styled from 'styled-components'
@@ -53,6 +56,9 @@ interface IProps {
 function TableRow({ data, priority }: IProps) {
   const { executorName, id, name, priorityName, statusName, statusRgb } = data
   const color = priority.find((it) => it.name == priorityName)?.rgb
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const StyledOrderStatus = styled.div`
     width: 5px;
     height: 50px;
@@ -63,15 +69,22 @@ function TableRow({ data, priority }: IProps) {
   `
 
   return (
-    <StyledRow>
-      <StyledOrderStatus />
-      <StyledId>{id}</StyledId>
-      <StyledRowTitle>{name}</StyledRowTitle>
-      <OrderStatusWrap>
-        <OrderStatus title={statusName} color={statusRgb} />
-      </OrderStatusWrap>
-      <StyledExecutor>{executorName}</StyledExecutor>
-    </StyledRow>
+    <>
+      <StyledRow onClick={() => setIsModalOpen(true)}>
+        <StyledOrderStatus />
+        <StyledId>{id}</StyledId>
+        <StyledRowTitle>{name}</StyledRowTitle>
+        <OrderStatusWrap>
+          <OrderStatus title={statusName} color={statusRgb} />
+        </OrderStatusWrap>
+        <StyledExecutor>{executorName}</StyledExecutor>
+      </StyledRow>
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)} orderId={id} orderTitle={name}>
+          <OrderModal orderId={id} />
+        </Modal>
+      )}
+    </>
   )
 }
 

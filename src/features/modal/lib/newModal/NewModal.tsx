@@ -1,4 +1,7 @@
 import { SetStateAction, useState } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { createOrder, TNewOrderDTO } from 'redux/orders/ordersAction'
 import PrimaryButton from 'shared/ui/kit/button/PrimaryButton'
 import styled from 'styled-components'
 
@@ -54,23 +57,11 @@ const StyledInput = styled.textarea`
   }
 `
 
-const createNewOrderObj = (name: string, description: string) => ({
-  comment: '',
-  description,
-  executorGroupId: 2806,
-  executorId: 2807,
-  initiatorId: 0,
-  name,
-  price: 0,
-  priorityId: 4680,
-  resolutionDatePlan: new Date(),
-  serviceId: 0,
-  statusId: 5615,
-  tags: [0],
-  taskTypeId: 2807,
-})
+interface IProps {
+  createOrder: (payload: TNewOrderDTO) => void
+}
 
-function NewModal() {
+function NewModal({ createOrder }: IProps) {
   const [nameValue, setNameValue] = useState('')
   const [descriptionValue, setDescriptionValue] = useState('')
 
@@ -80,8 +71,7 @@ function NewModal() {
   }
   const onClick = () => {
     if (nameValue.trim().length >= 3 && descriptionValue.trim().length >= 10) {
-      const test = createNewOrderObj(nameValue, descriptionValue)
-      console.log('test', test)
+      createOrder({ description: descriptionValue, name: nameValue })
     }
   }
 
@@ -110,4 +100,8 @@ function NewModal() {
   )
 }
 
-export default NewModal
+const mapDispatchToProps = (dispatch: any) => ({
+  createOrder: bindActionCreators(createOrder, dispatch),
+})
+
+export default connect(null, mapDispatchToProps)(NewModal)

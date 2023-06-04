@@ -1,6 +1,6 @@
 import { Reducer } from 'redux'
 
-import { SET_ORDERS } from './ordersAction'
+import { SET_CURRENT_ORDER, SET_ORDERS } from './ordersAction'
 
 export type TOrderData = {
   id: number
@@ -13,6 +13,7 @@ export type TOrderData = {
 
 export type TOrders = {
   orders: TOrderData[]
+  currentOrder?: TOrderData
 }
 
 const initialState: TOrders = {
@@ -25,6 +26,11 @@ export const ordersReducer: Reducer<TOrders> = (state = initialState, action) =>
       return {
         ...state,
         orders: action.payload,
+      }
+    case SET_CURRENT_ORDER:
+      return {
+        ...state,
+        currentOrder: action.payload,
       }
     default:
       return state

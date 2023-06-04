@@ -1,3 +1,8 @@
+import { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { getOrder } from 'redux/orders/ordersAction'
+import { TRootState } from 'redux/rootReducer'
 import styled from 'styled-components'
 
 const StyledLayout = styled.div`
@@ -34,18 +39,23 @@ const StyledDescriptionText = styled.span`
   color: #060606;
 `
 
-function OrderModal() {
+interface IProps {
+  currentOrder: any
+  orderId: number
+  getOrder: (id: number) => void
+}
+
+function OrderModal({ currentOrder, getOrder, orderId }: IProps) {
+  useEffect(() => {
+    getOrder(orderId)
+  }, [orderId])
+
   return (
     <StyledLayout>
       <StyledLeftWrap>
         <StyledDescriptionWrap>
           <StyledDescriptionTitle>Описание</StyledDescriptionTitle>
-          <StyledDescriptionText>
-            Длительное время занимает сохранение продажи (вне зависимости от кол-ва добавленных товаров). Проверить,
-            почему занимает столько времени. Это третья строка Это третья строкаЭто третья строкаЭто третья строкаЭто
-            третья строкаЭто третья строкаЭто третья строкаЭто третья строкаЭто третья строкаЭто третья строкаЭто третья
-            строка третья строка тья строка тья строка конец!
-          </StyledDescriptionText>
+          <StyledDescriptionText dangerouslySetInnerHTML={{ __html: currentOrder?.description }} />
         </StyledDescriptionWrap>
       </StyledLeftWrap>
       <StyledBreak></StyledBreak>
@@ -54,4 +64,12 @@ function OrderModal() {
   )
 }
 
-export default OrderModal
+const mapStateToProps = (state: TRootState) => ({
+  currentOrder: state.ordersList.currentOrder,
+})
+
+const mapDispatchToProps = (dispatch: any) => ({
+  getOrder: bindActionCreators(getOrder, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderModal)
