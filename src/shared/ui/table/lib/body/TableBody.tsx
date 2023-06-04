@@ -1,3 +1,10 @@
+import { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { getOrders } from 'redux/orders/ordersAction'
+import { TOrderData } from 'redux/orders/ordersReducer'
+import { TRootState } from 'redux/rootReducer'
+import { Loading } from 'shared/ui/kit'
 import styled from 'styled-components'
 
 import { TableRow } from './lib'
@@ -35,36 +42,52 @@ const StyledTableBody = styled.div`
   }
 `
 
-function TableBody() {
+const StyledLoadingWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 200px);
+`
+
+interface IProps {
+  ordersList: TOrderData[]
+  token: string
+  priority: any[]
+  getOrders: () => void
+}
+
+function TableBody({ getOrders, ordersList, priority, token }: IProps) {
+  const [isLoading, setIsLoading] = useState(true)
+  useEffect(() => {
+    if (token) {
+      getOrders()
+      setIsLoading(false)
+    }
+  }, [token, isLoading, getOrders])
+
   return (
-    <StyledTableBody>
-      <TableRow />
-      <TableRow />
-      {/* <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow />
-      <TableRow /> */}
-    </StyledTableBody>
+    <>
+      {!isLoading ? (
+        <StyledTableBody>
+          {ordersList && ordersList.map((it) => <TableRow key={it.id} data={it} priority={priority} />)}
+        </StyledTableBody>
+      ) : (
+        <StyledLoadingWrap>
+          <Loading />
+        </StyledLoadingWrap>
+      )}
+    </>
   )
 }
 
-export default TableBody
+const mapStateToProps = (state: TRootState) => ({
+  ordersList: state.ordersList.orders,
+  priority: state.references.priorities,
+  token: state.authorization.token,
+})
+
+const mapDispatchToProps = (dispatch: any) => ({
+  getOrders: bindActionCreators(getOrders, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableBody)

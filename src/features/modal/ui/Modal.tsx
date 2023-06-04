@@ -7,7 +7,7 @@ import { ModalContent } from '../lib'
 
 interface IModalProps {
   onClose?: () => void
-  children: any
+  children: JSX.Element
 }
 
 const StyledModalHead = styled.div`

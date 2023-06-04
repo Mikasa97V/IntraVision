@@ -23,10 +23,15 @@ const StyledButton = styled.button`
 
 type IProps = {
   text: string
+  onClick?: () => void
 }
 
-function PrimaryButton({ text }: IProps) {
-  return <StyledButton type="button">{text}</StyledButton>
+function PrimaryButton({ onClick, text }: IProps) {
+  return (
+    <StyledButton type="button" onClick={onClick}>
+      {text}
+    </StyledButton>
+  )
 }
 
 export default PrimaryButton

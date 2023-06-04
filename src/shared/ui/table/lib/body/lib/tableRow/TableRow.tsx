@@ -1,3 +1,5 @@
+import { TOrderData } from 'redux/orders/ordersReducer'
+import { TPriorities } from 'redux/rootReducer'
 import styled from 'styled-components'
 
 import OrderStatus from '../orderStatus/OrderStatus'
@@ -40,44 +42,36 @@ const StyledExecutor = styled.span`
   padding-left: 15px;
 `
 
-const StyledOrderStatus = styled.div`
-  width: 5px;
-  height: 50px;
-  margin-right: 45px;
-  background-color: #f75394;
-  border: 1px solid #f75394;
-  border-radius: 2px;
-`
 const OrderStatusWrap = styled.div`
   flex: 9%;
 `
-function TableRow() {
-  // const [isModalOpen, setIsModalOpen] = useState(false)
-  // localStorage.setItem('isModalOpen', isModalOpen.toString())
-  // const modalHandler = () => {
-  //   setIsModalOpen(!isModalOpen)
-  //   localStorage.setItem('isModalOpen', isModalOpen.toString())
-  // }
+interface IProps {
+  data: TOrderData
+  priority: TPriorities[]
+}
+
+function TableRow({ data, priority }: IProps) {
+  const { executorName, id, name, priorityName, statusName, statusRgb } = data
+  const color = priority.find((it) => it.name == priorityName)?.rgb
+  const StyledOrderStatus = styled.div`
+    width: 5px;
+    height: 50px;
+    margin-right: 45px;
+    background-color: ${color};
+    border: 1px solid ${color};
+    border-radius: 2px;
+  `
 
   return (
-    <>
-      <StyledRow>
-        <StyledOrderStatus />
-        <StyledId>50 061</StyledId>
-        <StyledRowTitle>
-          Просьба оценить разработку рекламного баннера на новорижском шоссе. Форматы 600х500х30...
-        </StyledRowTitle>
-        <OrderStatusWrap>
-          <OrderStatus title="требует уточнения" color="#FD5E53" />
-        </OrderStatusWrap>
-        <StyledExecutor>Менеджеров Сергей</StyledExecutor>
-      </StyledRow>
-      {/* {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <OrderModal />
-        </Modal>
-      )} */}
-    </>
+    <StyledRow>
+      <StyledOrderStatus />
+      <StyledId>{id}</StyledId>
+      <StyledRowTitle>{name}</StyledRowTitle>
+      <OrderStatusWrap>
+        <OrderStatus title={statusName} color={statusRgb} />
+      </OrderStatusWrap>
+      <StyledExecutor>{executorName}</StyledExecutor>
+    </StyledRow>
   )
 }
 

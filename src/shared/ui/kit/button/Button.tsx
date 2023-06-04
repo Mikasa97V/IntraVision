@@ -1,6 +1,5 @@
 import { Modal } from 'features'
-import { OrderModal } from 'features/modal/lib'
-// import { NewModal } from 'features/modal/lib'
+import { NewModal } from 'features/modal/lib'
 import { useState } from 'react'
 import styled from 'styled-components'
 
@@ -38,8 +37,7 @@ function Button({ text }: IButtonProps) {
       </StyledButton>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          <OrderModal />
-          {/* <NewModal /> */}
+          <NewModal />
         </Modal>
       )}
     </>

@@ -1,3 +1,4 @@
+import { SetStateAction, useState } from 'react'
 import PrimaryButton from 'shared/ui/kit/button/PrimaryButton'
 import styled from 'styled-components'
 
@@ -26,7 +27,7 @@ const StyledField = styled.div`
   color: #9f9ea7;
 `
 
-const StyledTextarea = styled.textarea`
+const StyledInput = styled.textarea`
   width: 100%;
   max-width: 625px;
   padding: 10px;
@@ -53,21 +54,57 @@ const StyledTextarea = styled.textarea`
   }
 `
 
+const createNewOrderObj = (name: string, description: string) => ({
+  comment: '',
+  description,
+  executorGroupId: 2806,
+  executorId: 2807,
+  initiatorId: 0,
+  name,
+  price: 0,
+  priorityId: 4680,
+  resolutionDatePlan: new Date(),
+  serviceId: 0,
+  statusId: 5615,
+  tags: [0],
+  taskTypeId: 2807,
+})
+
 function NewModal() {
+  const [nameValue, setNameValue] = useState('')
+  const [descriptionValue, setDescriptionValue] = useState('')
+
+  const onChange = (e: { target: { id: string; value: SetStateAction<string> } }) => {
+    if (e.target.id == 'name') setNameValue(e.target.value)
+    if (e.target.id == 'description') setDescriptionValue(e.target.value)
+  }
+  const onClick = () => {
+    if (nameValue.trim().length >= 3 && descriptionValue.trim().length >= 10) {
+      const test = createNewOrderObj(nameValue, descriptionValue)
+      console.log('test', test)
+    }
+  }
+
   return (
     <StyledLayout>
       <StyledForm>
         <StyledFieldsWrap>
           <StyledField>
             <span>Название</span>
-            <StyledTextarea name="name" id="name" className="name" />
+            <StyledInput name="name" id="name" className="name" onChange={onChange} value={nameValue} />
           </StyledField>
           <StyledField>
             <span>Описание</span>
-            <StyledTextarea name="name" id="name" className="description" />
+            <StyledInput
+              name="description"
+              id="description"
+              className="description"
+              onChange={onChange}
+              value={descriptionValue}
+            />
           </StyledField>
         </StyledFieldsWrap>
-        <PrimaryButton text="Сохранить" />
+        <PrimaryButton text="Сохранить" onClick={onClick} />
       </StyledForm>
     </StyledLayout>
   )
